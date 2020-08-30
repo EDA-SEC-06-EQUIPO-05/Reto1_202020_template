@@ -88,6 +88,29 @@ def loadCasting ():
     print("Datos cargados, " + str(lt.size(lst_casting)) + " elementos cargados")
     return lst_casting
 
+def buenas_peliculas(lista_pelis:dict,lista_casting:dict,nombre_director:str)-> list:
+    cuenta= 0
+    numero_buenas_peliculas: 0
+    suma_votaciones= 0
+    promedio_votos= 0
+    lista_id= []
+    lista_peliculas_buenas= []
+    for info in lista_casting["elements"]:
+        if info[12]==nombre_director:
+            lista_id.append(info[0])
+    for datos in lista_pelis["elements"]:
+        if datos[17]>=6 and datos[0]==lista_id[cuenta]:
+            numero_buenas_peliculas+= 1
+            suma_votaciones+= datos[17]
+            lista_peliculas_buenas.append(datos[5])
+            cuenta+= 1
+    promedio_votos= round(suma_votaciones/numero_buenas_peliculas,2)
+    texto= nombre_director+" tiene "+str(numero_buenas_peliculas)+" peliculas\
+           con una calificación por encima de 6, y el promedio de las\
+           votaciones es de "+str(promedio_votos)+". Las siguientes peliculas del director son\
+           las que cumplen con el requerimiento de votación: \n"
+    return texto + str(lista_peliculas_buenas)
+
 def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
 
     registro_directores: {}
