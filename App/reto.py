@@ -32,7 +32,7 @@ import csv
 
 from ADT import list as lt
 from DataStructures import listiterator as it
-from DataStructures import liststructure as lt
+
 
 from time import process_time 
 
@@ -81,6 +81,12 @@ def loadMovies ():
     lst = loadCSVFile("theMoviesdb/movies-small.csv",compareRecordIds) 
     print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
     return lst
+
+def conocer_director(director:str,lst:list,x,list)->pel:list,prom:float,num:int:
+    peli=[]
+    if director == 
+
+
 
 
 def main():
