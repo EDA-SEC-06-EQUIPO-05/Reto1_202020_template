@@ -26,7 +26,7 @@
   Este módulo es una aplicación básica con un menú de opciones para cargar datos, contar elementos, y hacer búsquedas sobre una lista .
 """
 
-import config as cf
+import App.config as cf
 import sys
 import csv
 
@@ -76,8 +76,6 @@ def loadCSVFile (file, cmpfunction):
         print("Hubo un error con la carga del archivo")
     return lst
 
-
-<<<<<<< HEAD
 def loadMovies():
     nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
     lst_movies = loadCSVFile(nombre_archivo,compareRecordIds) 
@@ -90,7 +88,7 @@ def loadCasting ():
     print("Datos cargados, " + str(lt.size(lst_casting)) + " elementos cargados")
     return lst_casting
 
-def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->list:
+def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
 
     registro_directores: {}
     numero_peliculas= 0
@@ -122,25 +120,19 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->list:
             director_recurrente= directores
     
     promedio_peliculas= round(suma_peliculas/numero_peliculas,2)
-
-    return (nombre_actor+" participó en "+str(numero_peliculas)+" peliculas, la votación promedio\
+    texto=  nombre_actor+" participó en "+str(numero_peliculas)+" peliculas, la votación promedio\
             de las peliculas en las que actuó es de "+str(promedio_peliculas)+" y el director con\
             el que mas colaboró fue "+director_recurrente+" con "+str(max_directores)+". A \
-            continuación se encuentra la lista de peliculas en las que apareció "+nombre_actor+": \n"+\
-            lista_peliculas_actor)
-=======
-def loadMovies ():
-    lst = loadCSVFile("theMoviesdb/movies-small.csv",compareRecordIds) 
-    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
-    return lst
+            continuación se encuentra la lista de peliculas en las que apareció "+nombre_actor+": \n"
 
-def conocer_director(director:str,lst:list,x,list)->pel:list,prom:float,num:int:
+    return  texto + str(lista_peliculas_actor)
+
+
+def conocer_director(director:str,lst:list,x,list)->str:
     peli=[]
-    if director == 
+    return peli
 
 
-
->>>>>>> 7d5ea0c177824b7060c0d52cc0ef3212ea8f1e0f
 
 def main():
     """
@@ -154,7 +146,7 @@ def main():
 
     while True:
         printMenu() #imprimir el menu de opciones en consola
-        inputs =input('Seleccione una opción para continuar\n') #leer opción ingresada
+        inputs= input('Seleccione una opción para continuar\n') #leer opción ingresada
         if len(inputs)>0:
 
             if int(inputs[0])==1: #opcion 1
@@ -173,6 +165,8 @@ def main():
                 pass
 
             elif int(inputs[0])==6: #opcion 6
+                actor= input("Ingrese el nombre del actor del que desea consultar la información")
+                registro_actor(lstmovies,lstcasting,actor)
                 pass
 
             elif int(inputs[0])==7: #opcion 7
@@ -182,5 +176,5 @@ def main():
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 
-if __name__ == "__main__":
-    main()
+    if __name__ == "__main__":
+        main()
