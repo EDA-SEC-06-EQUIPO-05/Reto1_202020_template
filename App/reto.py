@@ -68,7 +68,7 @@ def loadCSVFile (file, cmpfunction):
     dialect = csv.excel()
     dialect.delimiter=";"
     try:
-        with open(  cf.data_dir + file, encoding="utf-8") as csvfile:
+        with open(cf.data_dir + file, encoding="utf-8") as csvfile:
             row = csv.DictReader(csvfile, dialect=dialect)
             for elemento in row: 
                 lt.addLast(lst,elemento)
@@ -77,11 +77,56 @@ def loadCSVFile (file, cmpfunction):
     return lst
 
 
-def loadMovies ():
-    lst = loadCSVFile("theMoviesdb/movies-small.csv",compareRecordIds) 
-    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
-    return lst
+def loadMovies():
+    nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
+    lst_movies = loadCSVFile(nombre_archivo,compareRecordIds) 
+    print("Datos cargados, " + str(lt.size(lst_movies)) + " elementos cargados")
+    return lst_movies
 
+def loadCasting ():
+    nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
+    lst_casting = loadCSVFile(nombre_archivo,compareRecordIds) 
+    print("Datos cargados, " + str(lt.size(lst_casting)) + " elementos cargados")
+    return lst_casting
+
+def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->list:
+
+    registro_directores: {}
+    numero_peliculas= 0
+    lista_peliculas_actor= []
+    suma_peliculas= 0
+    max_directores= 0
+    lista_id= []
+
+    for elementos in lista_elenco["elements"]:
+        if elementos[1]==nombre_actor or elementos[3]==nombre_actor or elementos[5]==nombre_actor or\
+            elementos[7]==nombre_actor or elementos[9]==nombre_actor:
+            lista_id.append(elementos[0])
+            numero_peliculas+= 1
+            if elementos[12] not in registro_directores:
+                registro_directores[elementos][12]= 0
+            registro_directores[elementos][12]+= 1
+
+    cuenta_lista= 0
+
+    for elementos in lista_pelis["elements"]:
+        if elementos[0]==lista_id[cuenta_lista]:
+            suma_peliculas+= elementos[17]
+            lista_peliculas_actor.append(elementos[5])
+            cuenta_lista+= 1
+
+    for directores in registro_directores:
+        if registro_directores[directores]>max_directores:
+            max_directores= registro_directores[directores]
+            director_recurrente= directores
+    
+    promedio_peliculas= round(suma_peliculas/numero_peliculas,2)
+
+    return (nombre_actor+" participó en "+str(numero_peliculas)+" peliculas, la votación promedio\
+            de las peliculas en las que actuó es de "+str(promedio_peliculas)+" y el director con\
+            el que mas colaboró fue "+director_recurrente+" con "+str(max_directores)+". A \
+            continuación se encuentra la lista de peliculas en las que apareció "+nombre_actor+": \n"+\
+            lista_peliculas_actor)
 
 def main():
     """
@@ -100,9 +145,9 @@ def main():
 
             if int(inputs[0])==1: #opcion 1
                 lstmovies = loadMovies()
-
-            elif int(inputs[0])==2: #opcion 2
-                pass
+            
+            if int(inputs[0])==2: #opcion 2
+                lstcasting = loadCasting()
 
             elif int(inputs[0])==3: #opcion 3
                 pass
@@ -110,10 +155,13 @@ def main():
             elif int(inputs[0])==4: #opcion 4
                 pass
 
-            elif int(inputs[0])==3: #opcion 5
+            elif int(inputs[0])==5: #opcion 5
                 pass
 
-            elif int(inputs[0])==4: #opcion 6
+            elif int(inputs[0])==6: #opcion 6
+                pass
+
+            elif int(inputs[0])==7: #opcion 7
                 pass
 
 
