@@ -32,7 +32,7 @@ import csv
 
 from ADT import list as lt
 from DataStructures import listiterator as it
-from DataStructures import liststructure as lt
+
 
 from time import process_time 
 
@@ -77,6 +77,7 @@ def loadCSVFile (file, cmpfunction):
     return lst
 
 
+<<<<<<< HEAD
 def loadMovies():
     nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
     lst_movies = loadCSVFile(nombre_archivo,compareRecordIds) 
@@ -127,6 +128,19 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->list:
             el que mas colaboró fue "+director_recurrente+" con "+str(max_directores)+". A \
             continuación se encuentra la lista de peliculas en las que apareció "+nombre_actor+": \n"+\
             lista_peliculas_actor)
+=======
+def loadMovies ():
+    lst = loadCSVFile("theMoviesdb/movies-small.csv",compareRecordIds) 
+    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
+    return lst
+
+def conocer_director(director:str,lst:list,x,list)->pel:list,prom:float,num:int:
+    peli=[]
+    if director == 
+
+
+
+>>>>>>> 7d5ea0c177824b7060c0d52cc0ef3212ea8f1e0f
 
 def main():
     """
