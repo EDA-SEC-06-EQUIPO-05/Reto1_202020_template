@@ -191,7 +191,7 @@ def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
         if elementos[0] == lista_id[cuenta]:
             numerador+=elementos[17]
     promedio=round(numerador/numero_peliculas,2)
-    texto="Las películas dirigidas por "+director+"son:"+peli+",la cantidad de peliculas dirigidas son"+numero_peliculas+"y tiene un promedio de calificación de"+promedio
+    texto="Las películas dirigidas por "+director+"son:"+peli+",la cantidad de peliculas dirigidas son"+str(numero_peliculas)+"y tiene un promedio de calificación de"+promedio
                 
     return texto
 
