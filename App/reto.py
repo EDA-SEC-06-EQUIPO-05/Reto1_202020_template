@@ -128,9 +128,29 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
     return  texto + str(lista_peliculas_actor)
 
 
-def conocer_director(director:str,lst:list,x,list)->str:
+def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
     peli=[]
-    return peli
+    lista_id=[]
+    numero_peliculas=0
+    cuenta=0
+    numerador=0
+    promedio=0
+    for elementos in lista_elenco["elements"]:
+        if elementos[12]==director:
+            lista_id.append(elementos[0])
+            numero_peliculas+=1
+    for elementos in lista_pelis["elements"]:
+        if elementos[0]== lista_id[cuenta]:
+            peli.append(elementos[16])
+            cuenta+=1
+    cuenta=0
+    for elementos in lista_pelis["elements"]:
+        if elementos[0] == lista_id[cuenta]:
+            numerador+=elementos[17]
+    promedio=round(numerador/numero_peliculas,2)
+    texto="Las películas dirigidas por "+director+"son:"+peli+",la cantidad de peliculas dirigidas son"+numero_peliculas+"y tiene un promedio de calificación de"+promedio
+                
+    return texto
 
 
 
@@ -176,5 +196,5 @@ def main():
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()
