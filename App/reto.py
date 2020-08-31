@@ -26,15 +26,16 @@
   Este módulo es una aplicación básica con un menú de opciones para cargar datos, contar elementos, y hacer búsquedas sobre una lista .
 """
 
-import App.config as cf
+import config as cf
 import sys
 import csv
 
 from ADT import list as lt
 from DataStructures import listiterator as it
-
+from DataStructures import liststructure as lt
 
 from time import process_time 
+
 
 
 
@@ -220,5 +221,5 @@ def main():
             elif int(inputs[0])==0: #opcion 0, salir
                 sys.exit(0)
                 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()
