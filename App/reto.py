@@ -43,16 +43,15 @@ def printMenu():
     Imprime el menu de opciones
     """
     print("\nBienvenido")
-    print("1- Cargar Datos")
-    print("2- Ranking de peliculas")
-    print("3- Conocer un director")
-    print("4- Conocer un actor")
-    print("5- Entender un genero")
-    print("6- Crear ranking")
+    print("1- Cargar Datos de peliculas")
+    print("2- Cargar Datos de elenco")
+    print("3- Encontrar buenas peliculas de un director")
+    print("4- Ranking de peliculas")
+    print("5- Conocer un director")
+    print("6- Conocer un actor")
+    print("7- Entender un genero")
+    print("8- Crear ranking")
     print("0- Salir")
-
-
-
 
 def compareRecordIds (recordA, recordB):
     if int(recordA['id']) == int(recordB['id']):
@@ -60,8 +59,6 @@ def compareRecordIds (recordA, recordB):
     elif int(recordA['id']) > int(recordB['id']):
         return 1
     return -1
-
-
 
 def loadCSVFile (file, cmpfunction):
     lst=lt.newList("ARRAY_LIST", cmpfunction)
@@ -111,6 +108,10 @@ def buenas_peliculas(lista_pelis:dict,lista_casting:dict,nombre_director:str)-> 
            las que cumplen con el requerimiento de votación: \n"
     return texto + str(lista_peliculas_buenas)
 
+def conocer_director(director:str,lst:list,x,list)->str:
+    peli=[]
+    return peli
+
 def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
 
     registro_directores: {}
@@ -150,11 +151,24 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
 
     return  texto + str(lista_peliculas_actor)
 
+def info_genero(genero:str,lista_pelis:dict)->str:
+    
+    numero_pelis_genero= 0
+    lista_pelis_genero= []
+    suma_votos= 0
 
-def conocer_director(director:str,lst:list,x,list)->str:
-    peli=[]
-    return peli
+    for datos in lista_pelis["elements"]:
+        if genero in datos[2]:
+            numero_pelis_genero+= 1
+            lista_pelis_genero.append(datos[5])
+            suma_votos+= datos[18]
+    
+    promedio_votos= suma_votos/numero_pelis_genero
 
+    texto= "Hay "+str(numero_pelis_genero)+" peliculas con el genero de "+genero+", el promedio\
+            de votos por pelicula es de "+str(promedio_votos)+" votos. La siguiente lista tiene\
+            las peliculas encontradas de "+genero+": \n"
+    return texto + str(lista_pelis_genero)
 
 
 def main():
@@ -179,6 +193,8 @@ def main():
                 lstcasting = loadCasting()
 
             elif int(inputs[0])==3: #opcion 3
+                director= input("Ingrese el nombre del director del que desea obtener información: ")
+                buenas_peliculas(lstmovies,lstcasting,director)
                 pass
 
             elif int(inputs[0])==4: #opcion 4
@@ -187,12 +203,17 @@ def main():
             elif int(inputs[0])==5: #opcion 5
                 pass
 
-            elif int(inputs[0])==6: #opcion 6
-                actor= input("Ingrese el nombre del actor del que desea consultar la información")
+            elif int(inputs[0])==6: #opcion 7
+                actor= input("Ingrese el nombre del actor del que desea consultar información")
                 registro_actor(lstmovies,lstcasting,actor)
                 pass
 
-            elif int(inputs[0])==7: #opcion 7
+            elif int(inputs[0])==6: #opcion 6
+                genero= input("Ingrese el genero del que desea consultar información: ")
+                info_genero(genero, lstmovies)
+                pass
+
+            elif int(inputs[0])==8: #opcion 8
                 pass
 
 
