@@ -77,10 +77,102 @@ def loadCSVFile (file, cmpfunction):
     return lst
 
 
-def loadMovies ():
-    lst = loadCSVFile("theMoviesdb/movies-small.csv",compareRecordIds) 
-    print("Datos cargados, " + str(lt.size(lst)) + " elementos cargados")
-    return lst
+def loadMovies():
+    nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
+    lst_movies = loadCSVFile(nombre_archivo,compareRecordIds) 
+    print("Datos cargados, " + str(lt.size(lst_movies)) + " elementos cargados")
+    return lst_movies
+
+def loadCasting ():
+    nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
+    lst_casting = loadCSVFile(nombre_archivo,compareRecordIds) 
+    print("Datos cargados, " + str(lt.size(lst_casting)) + " elementos cargados")
+    return lst_casting
+
+def buenas_peliculas(lista_pelis:dict,lista_casting:dict,nombre_director:str)-> list:
+    cuenta= 0
+    numero_buenas_peliculas: 0
+    suma_votaciones= 0
+    promedio_votos= 0
+    lista_id= []
+    lista_peliculas_buenas= []
+    for info in lista_casting["elements"]:
+        if info[12]==nombre_director:
+            lista_id.append(info[0])
+    for datos in lista_pelis["elements"]:
+        if datos[17]>=6 and datos[0]==lista_id[cuenta]:
+            numero_buenas_peliculas+= 1
+            suma_votaciones+= datos[17]
+            lista_peliculas_buenas.append(datos[5])
+            cuenta+= 1
+    promedio_votos= round(suma_votaciones/numero_buenas_peliculas,2)
+    texto= nombre_director+" tiene "+str(numero_buenas_peliculas)+" peliculas\
+           con una calificación por encima de 6, y el promedio de las\
+           votaciones es de "+str(promedio_votos)+". Las siguientes peliculas del director son\
+           las que cumplen con el requerimiento de votación: \n"
+    return texto + str(lista_peliculas_buenas)
+
+def conocer_director(director:str,lst:list,x,list)->str:
+    peli=[]
+    return peli
+
+def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
+
+    registro_directores: {}
+    numero_peliculas= 0
+    lista_peliculas_actor= []
+    suma_peliculas= 0
+    max_directores= 0
+    lista_id= []
+
+    for elementos in lista_elenco["elements"]:
+        if elementos[1]==nombre_actor or elementos[3]==nombre_actor or elementos[5]==nombre_actor or\
+            elementos[7]==nombre_actor or elementos[9]==nombre_actor:
+            lista_id.append(elementos[0])
+            numero_peliculas+= 1
+            if elementos[12] not in registro_directores:
+                registro_directores[elementos][12]= 0
+            registro_directores[elementos][12]+= 1
+
+    cuenta_lista= 0
+
+    for elementos in lista_pelis["elements"]:
+        if elementos[0]==lista_id[cuenta_lista]:
+            suma_peliculas+= elementos[17]
+            lista_peliculas_actor.append(elementos[5])
+            cuenta_lista+= 1
+
+    for directores in registro_directores:
+        if registro_directores[directores]>max_directores:
+            max_directores= registro_directores[directores]
+            director_recurrente= directores
+    
+    promedio_peliculas= round(suma_peliculas/numero_peliculas,2)
+    texto=  nombre_actor+" participó en "+str(numero_peliculas)+" peliculas, la votación promedio\
+            de las peliculas en las que actuó es de "+str(promedio_peliculas)+" y el director con\
+            el que mas colaboró fue "+director_recurrente+" con "+str(max_directores)+". A \
+            continuación se encuentra la lista de peliculas en las que apareció "+nombre_actor+": \n"
+
+    return  texto + str(lista_peliculas_actor)
+
+def info_genero(genero:str,lista_pelis:dict)->str:
+    
+    numero_pelis_genero= 0
+    lista_pelis_genero= []
+    suma_votos= 0
+
+    for datos in lista_pelis["elements"]:
+        if genero in datos[2]:
+            numero_pelis_genero+= 1
+            lista_pelis_genero.append(datos[5])
+            suma_votos+= datos[18]
+    
+    promedio_votos= suma_votos/numero_pelis_genero
+
+    texto= "Hay "+str(numero_pelis_genero)+" peliculas con el genero de "+genero+", el promedio\
+            de votos por pelicula es de "+str(promedio_votos)+" votos. La siguiente lista tiene\
+            las peliculas encontradas de "+genero+": \n"
+    return texto + str(lista_pelis_genero)
 
 
 def main():
