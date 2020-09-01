@@ -87,31 +87,41 @@ def loadCasting (nombre_archivo:str):
     #print(lst_casting)
     return lst_casting
 
-def buenas_peliculas(lista_pelis:dict,lista_casting:dict,nombre_director:str)-> list:
+def buenas_peliculas(lista_pelis:dict,lista_casting:dict,nombre_director:str)-> tuple:
     cuenta= 0
     numero_buenas_peliculas: 0
     suma_votaciones= 0
     promedio_votos= 0
     lista_id= []
     lista_peliculas_buenas= []
-    for info in lista_casting["elements"]:
-        if info[12]==nombre_director:
-            lista_id.append(info[0])
-    for datos in lista_pelis["elements"]:
-        if datos[17]>=6 and datos[0]==lista_id[cuenta]:
+    cuenta_elem= 1
+    while cuenta_elem<=lt.size(lista_casting):
+        info= lt.getElement(lista_casting,cuenta_elem)
+        if info["director_name"]==nombre_director:
+            lista_id.append(info[id])
+	cuenta_elem+= 1
+    cuenta_elem= 1
+    while cuenta_elem<=lt.size(lista_pelis):
+	    datos= lt.getElement(lista_pelis,cuenta_elem)
+        if datos["vote_average"]>=6 and datos[id]==lista_id[cuenta]:
             numero_buenas_peliculas+= 1
-            suma_votaciones+= datos[17]
-            lista_peliculas_buenas.append(datos[5])
+            suma_votaciones+= int(datos["vote_average"])
+            lista_peliculas_buenas.append(datos["original_title"])
             cuenta+= 1
     promedio_votos= round(suma_votaciones/numero_buenas_peliculas,2)
+<<<<<<< HEAD
     texto= nombre_director+" tiene "+str(numero_buenas_peliculas)+" peliculas\
            con una calificación por encima de 6, y el promedio de las\
            votaciones es de "+str(promedio_votos)+". Las siguientes peliculas del director son\
            las que cumplen con el requerimiento de votación: \n"
     return texto + str(lista_peliculas_buenas)
 
+=======
+    tupla= (nombre_director,numero_buenas_peliculas,promedio_votos,lista_peliculas_buenas)
+    return tupla
+>>>>>>> lyara
 
-def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
+def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
 
     registro_directores: {}
     numero_peliculas= 0
@@ -119,22 +129,28 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
     suma_peliculas= 0
     max_directores= 0
     lista_id= []
+    cuenta_elem= 1
 
-    for elementos in lista_elenco["elements"]:
-        if elementos[1]==nombre_actor or elementos[3]==nombre_actor or elementos[5]==nombre_actor or\
-            elementos[7]==nombre_actor or elementos[9]==nombre_actor:
-            lista_id.append(elementos[0])
+    while cuenta_elem<=lt.size(lista_elenco):
+	    datos= lt.getElement(lista_elenco,cuenta_elem)
+        if datos["actor1_name"]==nombre_actor or datos["actor2_name"]==nombre_actor\
+        or datos["actor3_name"]==nombre_actor or datos["actor4_name"]==nombre_actor\
+        or datos["actor5_name"]==nombre_actor:
+            lista_id.append(datos["id"])
             numero_peliculas+= 1
-            if elementos[12] not in registro_directores:
-                registro_directores[elementos][12]= 0
-            registro_directores[elementos][12]+= 1
+            if datos["director_name"] not in registro_directores:
+                registro_directores[datos["director_name"]]= 0
+            registro_directores[datos["director_name"]]+= 1
+        cuenta_elem+= 1
 
     cuenta_lista= 0
+    cuenta_elem= 1
 
-    for elementos in lista_pelis["elements"]:
-        if elementos[0]==lista_id[cuenta_lista]:
-            suma_peliculas+= elementos[17]
-            lista_peliculas_actor.append(elementos[5])
+    while cuenta_elem<=lt.size(lista_pelis):
+	elementos= lt.getElement(lista_pelis,cuenta_elem)
+        if elementos["id"]==lista_id[cuenta_lista]:
+            suma_peliculas+= elementos["vote_average"]
+            lista_peliculas_actor.append(elementos["original_title"])
             cuenta_lista+= 1
 
     for directores in registro_directores:
@@ -143,33 +159,96 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
             director_recurrente= directores
     
     promedio_peliculas= round(suma_peliculas/numero_peliculas,2)
-    texto=  nombre_actor+" participó en "+str(numero_peliculas)+" peliculas, la votación promedio\
-            de las peliculas en las que actuó es de "+str(promedio_peliculas)+" y el director con\
-            el que mas colaboró fue "+director_recurrente+" con "+str(max_directores)+". A \
-            continuación se encuentra la lista de peliculas en las que apareció "+nombre_actor+": \n"
 
-    return  texto + str(lista_peliculas_actor)
+    tupla= (nombre_actor,numero_peliculas,promedio_peliculas,director_recurrente,max_directores,lista_peliculas_actor)
 
+<<<<<<< HEAD
 '''
 def info_genero(genero:str,lista_pelis:dict)->str:
+=======
+    return  tupla
+
+def info_genero(genero:str,lista_pelis:dict)->tuple:
+>>>>>>> lyara
     
     numero_pelis_genero= 0
     lista_pelis_genero= []
     suma_votos= 0
+    cuenta_elem= 1
 
-    for datos in lista_pelis["elements"]:
-        if genero in datos[2]:
+    while cuenta_elem<=lt.size(lista_pelis):
+	    datos= lt.getElement(lista_pelis,cuenta_elem)
+        if genero in datos["genres"]:
             numero_pelis_genero+= 1
-            lista_pelis_genero.append(datos[5])
-            suma_votos+= datos[18]
+            lista_pelis_genero.append(datos["original_title"])
+            suma_votos+= datos["vote_count"]
     
     promedio_votos= suma_votos/numero_pelis_genero
 
+<<<<<<< HEAD
     texto= "Hay "+str(numero_pelis_genero)+" peliculas con el genero de "+genero+", el promedio\
             de votos por pelicula es de "+str(promedio_votos)+" votos. La siguiente lista tiene\
             las peliculas encontradas de "+genero+": \n"
     return texto + str(lista_pelis_genero)
 '''
+def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
+    peli=[]
+    lista_id=[]
+    cuenta=0
+    numerador=0
+    promedio=0
+    i=0
+    j=0
+    k=0
+    while i<lt.size(lista_elenco):
+        if lista_elenco["elements"][i]["director_name"] == director:
+            lista_id.append(lista_elenco["elements"][i]["id"])
+        i+=1
+    while j<lt.size(lista_pelis):
+        if lista_pelis["elements"][j]["id"] == lista_id[cuenta]:
+            peli.append(lista_pelis["elements"][j]["title"])
+            cuenta+=1            
+        j+=1     
+    cuenta=0
+    while k<lt.size(lista_pelis):
+        if lista_pelis["elements"][k]["id"] == lista_id[cuenta]:
+            numerador+=float(lista_pelis["elements"][k]["vote_average"])
+            cuenta+=1            
+        k+=1     
+    denominador=len(lista_id)
+    promedio=round(numerador/denominador,2)
+    texto="La cantidad de películas dirigidas por "+director+" son: "+str(denominador)+", " +str(peli)+" y tienen un promedio de calificación de "+str(promedio)
+                
+    return texto
+
+#print(conocer_director("Jean Renoir",loadMovies("m/DetailsSmall.csv"),loadCasting("m/CastingSmall.csv")))  
+
+def entender_genero(lista_p,genero)->str:
+
+    lista_peliculas_genero = []
+    lista_votos = []
+    numerador = 0
+    promedio = 0
+    i=0
+    while i<lt.size(lista_p):
+        if genero in lista_p["elements"][i]["genres"]:
+            lista_peliculas_genero.append(lista_p["elements"][i]["title"])
+            numerador += float(lista_p['elements'][i]['vote_count'])
+            lista_votos.append(lista_p['elements'][i]['vote_count'])
+        i+=1
+    #print(numerador)
+    promedio = round(numerador/len(lista_votos))
+    texto = 'Se encontraron '+str(len(lista_peliculas_genero))+' películas del género '+genero+'\nEsta es una lista de todas las películas asociadas al género '+genero+': '+str(lista_peliculas_genero)+'\nEl promedio de votos del género '+genero+' fue '+str(promedio)
+    return texto
+
+#print(entender_genero(loadMovies("m/DetailsSmall.csv"),'Comedy'))  
+=======
+    tupla= (numero_pelis_genero,promedio_votos,lista_pelis_genero)
+
+    return tupla
+
+>>>>>>> lyara
+
 def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
     peli=[]
     lista_id=[]
@@ -241,32 +320,76 @@ def main():
             if int(inputs)==1: #opcion 1
                 nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
                 lstmovies = loadMovies(nombre_archivo)
+<<<<<<< HEAD
+=======
+                print (lstmovies)
+>>>>>>> lyara
             
             elif int(inputs)==2: #opcion 2
                 nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
                 lstcasting = loadCasting(nombre_archivo)
+<<<<<<< HEAD
+=======
+                print(lstcasting)
+>>>>>>> lyara
 
             elif int(inputs)==3: #opcion 3
                 director= input("Ingrese el nombre del director del que desea obtener información: ")
                 buenas_peliculas(lstmovies,lstcasting,director)
+<<<<<<< HEAD
                 pass
 
             elif int(inputs)==4: #opcion 4
+=======
+                print(buenas_peliculas[0]+" tiene "+str(buenas_peliculas[1])+" peliculas\
+                     con una calificación por encima de 6, y el promedio de las\
+                     votaciones es de "+str(buenas_peliculas[2])+". Las siguientes peliculas del director son\
+                     las que cumplen con el requerimiento de votación: \n")
+                print (buenas_peliculas[3])
+                pass
+
+            elif int(inputs)==4: #opcion 4
+                genero= input("Ingrese el genero del que desea consultar información: ")
+                res_genero= entender_genero(lstmovies,genero)
+                print(res_genero)
+>>>>>>> lyara
                 pass
 
             elif int(inputs)==5: #opcion 5
                 director=input("Ingrese el nombre del director del que desea consultar la información: ")
+<<<<<<< HEAD
                 conocer_director(director,lstmovies,lstcasting)
+=======
+                informacion_director= conocer_director(director,lstmovies,lstcasting)
+                print(informacion_director)
+>>>>>>> lyara
                 pass
 
             elif int(inputs)==6: #opcion 6
                 actor= input("Ingrese el nombre del actor del que desea consultar información: ")
+<<<<<<< HEAD
                 registro_actor(lstmovies,lstcasting,actor)
+=======
+                info_actor= registro_actor(lstmovies,lstcasting,actor)
+                print(info_actor[0]+" participó en "+str(info_actor[1])+" peliculas, la votación promedio\
+                de las peliculas en las que actuó es de "+str(info_actor[2])+" y el director con\
+                el que mas colaboró fue "+info_actor[3]+" con "+str(info_actor[4]+" colaboraciones")+". A \
+                continuación se encuentra la lista de peliculas en las que apareció "+info_actor[0]+": \n")
+                print (info_actor[5])
+>>>>>>> lyara
                 pass
 
             elif int(inputs)==7: #opcion 7
                 genero= input("Ingrese el genero del que desea consultar información: ")
+<<<<<<< HEAD
                 entender_genero(genero, lstmovies)
+=======
+                gender= info_genero(genero, lstmovies)
+                print("Hay "+str(gender[0])+" peliculas con el genero de "+genero+", el promedio\
+                de votos por pelicula es de "+str(gender[1])+" votos. La siguiente lista tiene\
+                las peliculas encontradas de "+genero+": \n")
+                print(gender[2])
+>>>>>>> lyara
                 pass
 
             elif int(inputs)==8: #opcion 8
