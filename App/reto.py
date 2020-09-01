@@ -32,7 +32,6 @@ import csv
 
 from ADT import list as lt
 from DataStructures import listiterator as it
-from DataStructures import liststructure as lt
 
 from time import process_time 
 
@@ -151,6 +150,7 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->str:
 
     return  texto + str(lista_peliculas_actor)
 
+'''
 def info_genero(genero:str,lista_pelis:dict)->str:
     
     numero_pelis_genero= 0
@@ -169,7 +169,7 @@ def info_genero(genero:str,lista_pelis:dict)->str:
             de votos por pelicula es de "+str(promedio_votos)+" votos. La siguiente lista tiene\
             las peliculas encontradas de "+genero+": \n"
     return texto + str(lista_pelis_genero)
-
+'''
 def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
     peli=[]
     lista_id=[]
@@ -200,8 +200,27 @@ def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
                 
     return texto
 
-print(conocer_director("Jean Renoir",loadMovies("m/DetailsSmall.csv"),loadCasting("m/CastingSmall.csv")))  
+#print(conocer_director("Jean Renoir",loadMovies("m/DetailsSmall.csv"),loadCasting("m/CastingSmall.csv")))  
 
+def entender_genero(lista_p,genero)->str:
+
+    lista_peliculas_genero = []
+    lista_votos = []
+    numerador = 0
+    promedio = 0
+    i=0
+    while i<lt.size(lista_p):
+        if genero in lista_p["elements"][i]["genres"]:
+            lista_peliculas_genero.append(lista_p["elements"][i]["title"])
+            numerador += float(lista_p['elements'][i]['vote_count'])
+            lista_votos.append(lista_p['elements'][i]['vote_count'])
+        i+=1
+    #print(numerador)
+    promedio = round(numerador/len(lista_votos))
+    texto = 'Se encontraron '+str(len(lista_peliculas_genero))+' películas del género '+genero+'\nEsta es una lista de todas las películas asociadas al género '+genero+': '+str(lista_peliculas_genero)+'\nEl promedio de votos del género '+genero+' fue '+str(promedio)
+    return texto
+
+#print(entender_genero(loadMovies("m/DetailsSmall.csv"),'Comedy'))  
 
 def main():
     """
@@ -220,9 +239,11 @@ def main():
         if len(inputs)>0:
 
             if int(inputs[0])==1: #opcion 1
+                nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
                 lstmovies = loadMovies(nombre_archivo)
             
             if int(inputs[0])==2: #opcion 2
+                nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
                 lstcasting = loadCasting(nombre_archivo)
 
             elif int(inputs[0])==3: #opcion 3
@@ -245,7 +266,7 @@ def main():
 
             elif int(inputs[0])==7: #opcion 7
                 genero= input("Ingrese el genero del que desea consultar información: ")
-                info_genero(genero, lstmovies)
+                entender_genero(genero, lstmovies)
                 pass
 
             elif int(inputs[0])==8: #opcion 8
