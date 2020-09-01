@@ -203,12 +203,12 @@ def main():
             elif int(inputs[0])==5: #opcion 5
                 pass
 
-            elif int(inputs[0])==6: #opcion 7
+            elif int(inputs[0])==6: #opcion 6
                 actor= input("Ingrese el nombre del actor del que desea consultar información")
                 registro_actor(lstmovies,lstcasting,actor)
                 pass
 
-            elif int(inputs[0])==6: #opcion 6
+            elif int(inputs[0])==7: #opcion 7
                 genero= input("Ingrese el genero del que desea consultar información: ")
                 info_genero(genero, lstmovies)
                 pass
