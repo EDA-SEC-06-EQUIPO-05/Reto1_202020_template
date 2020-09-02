@@ -214,6 +214,7 @@ def main():
     Instancia una lista vacia en la cual se guardarán los datos cargados desde el archivo
     Args: None
     Return: None 
+    Julian
     Ricardo Sanchez
     """
 
