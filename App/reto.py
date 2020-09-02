@@ -159,7 +159,7 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
     tupla= (nombre_actor,numero_peliculas,promedio_peliculas,director_recurrente,max_directores,lista_peliculas_actor)
 
     return  tupla
-print(registro_actor(loadMovies('m/DetailsSmall.csv'),loadCasting('m/CastingSmall.csv'),'William Shatner'))
+#print(registro_actor(loadMovies('m/DetailsSmall.csv'),loadCasting('m/CastingSmall.csv'),'William Shatner'))
 
 def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
     peli=[]
