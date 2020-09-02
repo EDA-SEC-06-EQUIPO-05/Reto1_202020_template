@@ -94,53 +94,60 @@ def buenas_peliculas(lista_pelis:dict,lista_casting:dict,nombre_director:str)-> 
     promedio_votos= 0
     lista_id= []
     lista_peliculas_buenas= []
-    cuenta_elem= 1
-    while cuenta_elem<=lt.size(lista_casting):
-        info= lt.getElement(lista_casting,cuenta_elem)
+    cuenta_elem_1= 1
+    cuenta_elem_2= 1
+    while cuenta_elem_1<=lt.size(lista_casting):
+        info= lt.getElement(lista_casting,cuenta_elem_1)
         if info["director_name"]==nombre_director:
             lista_id.append(info["id"])
-	    cuenta_elem+=1
-    cuenta_elem=1
-    while cuenta_elem<=lt.size(lista_pelis):
-	    datos= lt.getElement(lista_pelis,cuenta_elem)
-        if datos["vote_average"]>=6 and datos["id"]==lista_id[cuenta]:
+        cuenta_elem_1+= 1
+    while cuenta_elem_2<=lt.size(lista_pelis):
+        datos= lt.getElement(lista_pelis,cuenta_elem_2)
+        if float(datos["vote_average"])>=6 and datos["id"]==lista_id[cuenta] and cuenta<(len(lista_id)-1):
             numero_buenas_peliculas+= 1
-            suma_votaciones+= int(datos["vote_average"])
+            suma_votaciones+= float(datos["vote_average"])
             lista_peliculas_buenas.append(datos["original_title"])
-            cuenta+=1
+            cuenta+= 1
+        cuenta_elem_2+= 1
     promedio_votos= round(suma_votaciones/numero_buenas_peliculas,2)
     tupla= (nombre_director,numero_buenas_peliculas,promedio_votos,lista_peliculas_buenas)
     return tupla
+#print(buenas_peliculas(loadMovies('m/DetailsSmall.csv'),loadCasting('m/CastingSmall.csv'),'George Lucas'))
 
 def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
 
-    registro_directores: {}
+    registro_directores= {}
     numero_peliculas= 0
     lista_peliculas_actor= []
     suma_peliculas= 0
     max_directores= 0
     lista_id= []
-    cuenta_elem= 1
+    cuenta_elem_1= 0
+    cuenta_elem_2= 0
+    cuenta_lista= 0
 
-    while cuenta_elem<=lt.size(lista_elenco):
-	    datos=lt.getElement(lista_elenco,cuenta_elem)
-        if datos["actor1_name"]==nombre_actor or datos["actor2_name"]==nombre_actor or datos["actor3_name"]==nombre_actor or datos["actor4_name"]==nombre_actor or datos["actor5_name"]==nombre_actor:
-            lista_id=lista_id.append(datos["id"])
-            numero_peliculas+=1
+    while cuenta_elem_1<=lt.size(lista_elenco):
+        datos= lt.getElement(lista_elenco,cuenta_elem_1)
+        if datos["actor1_name"]==nombre_actor or datos["actor2_name"]==nombre_actor\
+        or datos["actor3_name"]==nombre_actor or datos["actor4_name"]==nombre_actor\
+        or datos["actor5_name"]==nombre_actor:
+            lista_id.append(datos["id"])
+            numero_peliculas+= 1
             if datos["director_name"] not in registro_directores:
                 registro_directores[datos["director_name"]]= 0
             registro_directores[datos["director_name"]]+= 1
-        cuenta_elem+=1
-
-    cuenta_lista= 0
-    cuenta_elem= 1
-
-    while cuenta_elem<=lt.size(lista_pelis):
-	elementos= lt.getElement(lista_pelis,cuenta_elem)
+        cuenta_elem_1+= 1
+        
+    while cuenta_elem_2<=lt.size(lista_pelis) and cuenta_lista<(len(lista_id)):
+        elementos= lt.getElement(lista_pelis,cuenta_elem_2)
         if elementos["id"]==lista_id[cuenta_lista]:
-            suma_peliculas+= elementos["vote_average"]
+            #print(len(lista_id))
+            #print(lista_id[6])
+            #print(cuenta_lista)
+            suma_peliculas+= float(elementos["vote_average"])
             lista_peliculas_actor.append(elementos["original_title"])
-            cuenta_lista+=1
+            cuenta_lista+= 1
+        cuenta_elem_2+= 1
 
     for directores in registro_directores:
         if registro_directores[directores]>max_directores:
@@ -152,7 +159,7 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
     tupla= (nombre_actor,numero_peliculas,promedio_peliculas,director_recurrente,max_directores,lista_peliculas_actor)
 
     return  tupla
-
+print(registro_actor(loadMovies('m/DetailsSmall.csv'),loadCasting('m/CastingSmall.csv'),'William Shatner'))
 
 def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
     peli=[]
@@ -209,6 +216,7 @@ def main():
     Instancia una lista vacia en la cual se guardarán los datos cargados desde el archivo
     Args: None
     Return: None 
+    Julian
     Ricardo Sanchez
     """
 
@@ -230,12 +238,9 @@ def main():
 
             elif int(inputs)==3: #opcion 3
                 director= input("Ingrese el nombre del director del que desea obtener información: ")
-                buenas_peliculas(lstmovies,lstcasting,director)
-                print(buenas_peliculas[0]+" tiene "+str(buenas_peliculas[1])+" peliculas\
-                     con una calificación por encima de 6, y el promedio de las\
-                     votaciones es de "+str(buenas_peliculas[2])+". Las siguientes peliculas del director son\
-                     las que cumplen con el requerimiento de votación: \n")
-                print (buenas_peliculas[3])
+                buenas_director= buenas_peliculas(lstmovies,lstcasting,director)
+                print (buenas_director[0]+" tiene "+str(buenas_director[1])+" peliculas con una calificación por encima de 6, y el promedio de las votaciones es de "+str(buenas_director[2])+". Las siguientes peliculas del director son las que cumplen con el requerimiento de votación: \n")
+                print (buenas_director[3])
                 pass
 
             elif int(inputs)==4: #opcion 4
@@ -251,10 +256,7 @@ def main():
             elif int(inputs)==6: #opcion 6
                 actor= input("Ingrese el nombre del actor del que desea consultar información: ")
                 info_actor= registro_actor(lstmovies,lstcasting,actor)
-                print(info_actor[0]+" participó en "+str(info_actor[1])+" peliculas, la votación promedio\
-                de las peliculas en las que actuó es de "+str(info_actor[2])+" y el director con\
-                el que mas colaboró fue "+info_actor[3]+" con "+str(info_actor[4]+" colaboraciones")+". A \
-                continuación se encuentra la lista de peliculas en las que apareció "+info_actor[0]+": \n")
+                print(info_actor[0]+" participó en "+str(info_actor[1])+" peliculas, la votación promedio de las peliculas en las que actuó es de "+str(info_actor[2])+" y el director con el que mas colaboró fue "+info_actor[3]+" con "+str(info_actor[4])+" colaboraciones. A continuación se encuentra la lista de peliculas en las que apareció "+info_actor[0]+": \n")
                 print (info_actor[5])
                 pass
 
