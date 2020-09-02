@@ -184,9 +184,7 @@ def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
     promedio=round(numerador/denominador,2)
     texto="La cantidad de películas dirigidas por "+director+" son: "+str(denominador)+", " +str(peli)+" y tienen un promedio de calificación de "+str(promedio)
                 
-    return texto
-
-#print(conocer_director("Jean Renoir",loadMovies("m/DetailsSmall.csv"),loadCasting("m/CastingSmall.csv")))  
+    return texto  
 
 def entender_genero(lista_p,genero)->str:
 
@@ -195,18 +193,16 @@ def entender_genero(lista_p,genero)->str:
     numerador = 0
     promedio = 0
     i=0
-    while i<lt.size(lista_p):
+    tamaño=lt.size(lista_p)
+    while i<tamaño:
         if genero in lista_p["elements"][i]["genres"]:
             lista_peliculas_genero.append(lista_p["elements"][i]["title"])
             numerador += float(lista_p['elements'][i]['vote_count'])
             lista_votos.append(lista_p['elements'][i]['vote_count'])
         i+=1
-    #print(numerador)
     promedio = round(numerador/len(lista_votos))
     texto = 'Se encontraron '+str(len(lista_peliculas_genero))+' películas del género '+genero+'\nEsta es una lista de todas las películas asociadas al género '+genero+': '+str(lista_peliculas_genero)+'\nEl promedio de votos del género '+genero+' fue '+str(promedio)
     return texto
-
-#print(entender_genero(loadMovies("m/DetailsSmall.csv"),'Comedy'))  
 
 def main():
     """
@@ -215,6 +211,7 @@ def main():
     Instancia una lista vacia en la cual se guardarán los datos cargados desde el archivo
     Args: None
     Return: None 
+    Julian
     Ricardo Sanchez
     """
 
@@ -227,12 +224,12 @@ def main():
             if int(inputs)==1: #opcion 1
                 nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
                 lstmovies = loadMovies(nombre_archivo)
-                print (lstmovies)
+                #print (lstmovies)
             
             elif int(inputs)==2: #opcion 2
                 nombre_archivo= input("Ingrese el nombre del archivo CSV: ")
                 lstcasting = loadCasting(nombre_archivo)
-                print(lstcasting)
+                #print(lstcasting)
 
             elif int(inputs)==3: #opcion 3
                 director= input("Ingrese el nombre del director del que desea obtener información: ")
@@ -243,14 +240,12 @@ def main():
 
             elif int(inputs)==4: #opcion 4
                 genero= input("Ingrese el genero del que desea consultar información: ")
-                res_genero= entender_genero(lstmovies,genero)
-                print(res_genero)
+                print(entender_genero(lstmovies,genero))
                 pass
 
             elif int(inputs)==5: #opcion 5
                 director=input("Ingrese el nombre del director del que desea consultar la información: ")
-                informacion_director= conocer_director(director,lstmovies,lstcasting)
-                print(informacion_director)
+                print(conocer_director(director,lstmovies,lstcasting))
                 pass
 
             elif int(inputs)==6: #opcion 6
@@ -265,8 +260,7 @@ def main():
 
             elif int(inputs)==7: #opcion 7
                 genero= input("Ingrese el genero del que desea consultar información: ")
-                gender= entender_genero(genero, lstmovies)
-                print(gender)
+                print(entender_genero(lstmovies,genero))                
                 pass
 
             elif int(inputs)==8: #opcion 8
