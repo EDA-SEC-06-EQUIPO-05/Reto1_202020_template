@@ -113,6 +113,29 @@ def buenas_peliculas(lista_pelis:dict,lista_casting:dict,nombre_director:str)-> 
     tupla= (nombre_director,numero_buenas_peliculas,promedio_votos,lista_peliculas_buenas)
     return tupla
 
+def ranking(tamaño_lista:int,mejor_o_peor:str,count_o_average,lista_pelis:dict)->list:
+
+    lista_f= [""]*tamaño_lista
+    dicc_ranking= {}
+    cuenta_elem_1= 0
+    cuenta_dicc= 0
+
+    while cuenta_elem_1<=lt.size(lista_pelis):
+        datos= lt.getElement(lista_elenco,cuenta_elem_1)
+        if count_o_average=="count":
+            cuenta_comp= datos["vote_count"]
+        elif count_o_average== "average":
+            cuenta_comp= datos["vote_average"]
+        if cuenta_dicc<tamaño_lista:
+            dicc_ranking[datos["original_title"]]= cuenta_comp
+            cuenta_dicc+= 1
+        elif cuenta_dicc>=tamaño_lista:
+            if mejor_o_peor=="mejor":
+                
+            elif mejor_o_peor=="peor":
+
+    
+
 def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
 
     registro_directores= {}
