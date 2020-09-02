@@ -139,7 +139,7 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
         
     while cuenta_elem_2<=lt.size(lista_pelis):
         elementos= lt.getElement(lista_pelis,cuenta_elem_2)
-        if elementos["id"]==lista_id[cuenta_lista]:
+        if elementos["id"]==lista_id[cuenta_lista] and cuenta_lista<(len(lista_id)-1):
             suma_peliculas+= float(elementos["vote_average"])
             lista_peliculas_actor.append(elementos["original_title"])
             cuenta_lista+= 1
@@ -251,10 +251,7 @@ def main():
             elif int(inputs)==6: #opcion 6
                 actor= input("Ingrese el nombre del actor del que desea consultar información: ")
                 info_actor= registro_actor(lstmovies,lstcasting,actor)
-                print(info_actor[0]+" participó en "+str(info_actor[1])+" peliculas, la votación promedio\
-                de las peliculas en las que actuó es de "+str(info_actor[2])+" y el director con\
-                el que mas colaboró fue "+info_actor[3]+" con "+str(info_actor[4]+" colaboraciones")+". A \
-                continuación se encuentra la lista de peliculas en las que apareció "+info_actor[0]+": \n")
+                print(info_actor[0]+" participó en "+str(info_actor[1])+" peliculas, la votación promedio de las peliculas en las que actuó es de "+str(info_actor[2])+" y el director con el que mas colaboró fue "+info_actor[3]+" con "+str(info_actor[4])+" colaboraciones. A continuación se encuentra la lista de peliculas en las que apareció "+info_actor[0]+": \n")
                 print (info_actor[5])
                 pass
 
