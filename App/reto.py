@@ -112,6 +112,7 @@ def buenas_peliculas(lista_pelis:dict,lista_casting:dict,nombre_director:str)-> 
     promedio_votos= round(suma_votaciones/numero_buenas_peliculas,2)
     tupla= (nombre_director,numero_buenas_peliculas,promedio_votos,lista_peliculas_buenas)
     return tupla
+#print(buenas_peliculas(loadMovies('m/DetailsSmall.csv'),loadCasting('m/CastingSmall.csv'),'George Lucas'))
 
 def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
 
@@ -137,9 +138,12 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
             registro_directores[datos["director_name"]]+= 1
         cuenta_elem_1+= 1
         
-    while cuenta_elem_2<=lt.size(lista_pelis):
+    while cuenta_elem_2<=lt.size(lista_pelis) and cuenta_lista<(len(lista_id)):
         elementos= lt.getElement(lista_pelis,cuenta_elem_2)
-        if elementos["id"]==lista_id[cuenta_lista] and cuenta_lista<(len(lista_id)-1):
+        if elementos["id"]==lista_id[cuenta_lista]:
+            #print(len(lista_id))
+            #print(lista_id[6])
+            #print(cuenta_lista)
             suma_peliculas+= float(elementos["vote_average"])
             lista_peliculas_actor.append(elementos["original_title"])
             cuenta_lista+= 1
@@ -155,6 +159,7 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
     tupla= (nombre_actor,numero_peliculas,promedio_peliculas,director_recurrente,max_directores,lista_peliculas_actor)
 
     return  tupla
+#print(registro_actor(loadMovies('m/DetailsSmall.csv'),loadCasting('m/CastingSmall.csv'),'William Shatner'))
 
 def conocer_director(director:str,lista_pelis:dict,lista_elenco:dict)->str:
     peli=[]
@@ -267,5 +272,5 @@ def main():
             elif int(inputs)==0: #opcion 0, salir
                 sys.exit(0)
                 
-if __name__ == "__main__":
+if _name_ == "_main_":
     main()
