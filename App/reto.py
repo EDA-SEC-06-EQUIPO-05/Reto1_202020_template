@@ -121,8 +121,8 @@ def registro_actor(lista_pelis:dict,lista_elenco:dict,nombre_actor:str)->tuple:
     suma_peliculas= 0
     max_directores= 0
     lista_id= []
-    cuenta_elem_1= 1
-    cuenta_elem_2= 1
+    cuenta_elem_1= 0
+    cuenta_elem_2= 0
     cuenta_lista= 0
 
     while cuenta_elem_1<=lt.size(lista_elenco):
